@@ -1,2 +1,2 @@
 # content-aggregator-rss
-A simple feed aggregator that retrieves food-related content from RSS feeds across the web and presents it based on a search key.
+A command-line interface designed to aggregate food-related content, fetching recipes and curated articles from online RSS feeds and presenting relevant results according to a user-defined search key in a dynamically updating environment.
