@@ -116,6 +116,7 @@ Updated: Mon, 20 Jan 2026 14:30:00 GMT
 ```
 
 ---
-## 👨‍💻 Autor: Luiggy Alves
-- Estudante de Ciência da Computação na Universidade Federal do Amazonas
-- Projeto desenvolvido como parte dos desafios propostos no livro: "Aprenda Node.js com Projetos reais", de Jonathan Wexler
+## 👨‍💻 Author: Luiggy Alves
+- Computer Science student at the Federal University of Amazonas
+- Project developed as part of the challenges proposed in the book “Learn Node.js with Real Projects” by Jonathan Wexler.
+
