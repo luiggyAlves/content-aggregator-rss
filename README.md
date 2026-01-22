@@ -1,4 +1,4 @@
-# Food RSS CLI Aggregator
+# Content aggregator rss
 
 A command-line interface that aggregates food-related content by retrieving recipes and articles from online RSS feeds and dynamically displaying results based on a user-defined search keyword.
 
@@ -6,7 +6,7 @@ A command-line interface that aggregates food-related content by retrieving reci
 
 ## 📌 Overview
 
-This project is a **Node.js command-line application** that continuously fetches data from multiple food-related RSS feeds, filters the content according to a keyword provided by the user, and displays the aggregated results in a dynamic table.
+This project is a Node.js command-line application that continuously fetches data from multiple food-related RSS feeds, filters the content according to a keyword provided by the user, and displays the aggregated results in a dynamic table.
 
 The application updates automatically at a fixed interval and also allows the user to manually add custom items to the feed.
 
@@ -31,18 +31,8 @@ The application updates automatically at a fixed interval and also allows the us
 
 ---
 
-## 📂 Project Structure
 
-```
-food_feed_rss_app/
-├── index.js
-├── package.json
-└── README.md
-```
-
----
-
-## 🚀 Installation
+## 🚀 How to use
 
 1. Clone the repository:
 
@@ -64,7 +54,7 @@ npm install
 Run the application using Node.js:
 
 ```bash
-node index.js
+node index
 ```
 
 ### User Flow
@@ -125,28 +115,5 @@ Updated: Mon, 20 Jan 2026 14:30:00 GMT
 }
 ```
 
----
 
-## 👤 Author
 
-**Luiggy Alves**
-
----
-
-## 📄 License
-
-This project is licensed under the **ISC License**.
-
----
-
-## 🔮 Future Improvements
-
-* Error handling for invalid RSS feeds
-* Pagination or result limiting
-* Support for multiple keywords
-* Persistent storage for custom items
-* Configurable refresh interval
-
----
-
-Feel free to fork, improve, and contribute 🚀
