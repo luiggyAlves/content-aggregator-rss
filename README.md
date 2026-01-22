@@ -1,2 +1,152 @@
-# content-aggregator-rss
-A command-line interface designed to aggregate food-related content, fetching recipes and curated articles from online RSS feeds and presenting relevant results according to a user-defined search key in a dynamically updating environment.
+# Food RSS CLI Aggregator
+
+A command-line interface that aggregates food-related content by retrieving recipes and articles from online RSS feeds and dynamically displaying results based on a user-defined search keyword.
+
+---
+
+## 📌 Overview
+
+This project is a **Node.js command-line application** that continuously fetches data from multiple food-related RSS feeds, filters the content according to a keyword provided by the user, and displays the aggregated results in a dynamic table.
+
+The application updates automatically at a fixed interval and also allows the user to manually add custom items to the feed.
+
+---
+
+## ✨ Features
+
+* Aggregates content from multiple RSS feeds
+* Filters articles and recipes by a search keyword
+* Dynamically updates content every 2 seconds
+* Displays results in a tabular CLI format
+* Allows users to add custom feed items manually
+* Shows last update timestamp
+
+---
+
+## 🛠️ Technologies Used
+
+* **Node.js** (ES Modules)
+* **rss-parser** – for fetching and parsing RSS feeds
+* **prompt-sync** – for synchronous user input in the terminal
+
+---
+
+## 📂 Project Structure
+
+```
+food_feed_rss_app/
+├── index.js
+├── package.json
+└── README.md
+```
+
+---
+
+## 🚀 Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/your-username/food_feed_rss_app.git
+cd food_feed_rss_app
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+---
+
+## ▶️ Usage
+
+Run the application using Node.js:
+
+```bash
+node index.js
+```
+
+### User Flow
+
+1. Enter a **search keyword** when prompted.
+2. The application fetches RSS feeds and filters content based on the keyword.
+3. Results are displayed in a table and refreshed every 2 seconds.
+4. You may add custom items at any time using the format:
+
+```
+Title, https://example.com
+```
+
+---
+
+## ⚙️ How It Works
+
+### 1. RSS Fetching
+
+The application uses `rss-parser` to asynchronously fetch multiple RSS feed URLs in parallel using `Promise.all`.
+
+### 2. Aggregation Logic
+
+* Extracts `title` and `link` from each RSS item
+* Filters items whose titles include the user-defined keyword (case-insensitive)
+* Stores matching results in a unified list
+
+### 3. Dynamic Updates
+
+A `setInterval` function triggers feed fetching every **2000 milliseconds**, ensuring the displayed content is always up to date.
+
+### 4. Custom Items
+
+Users can manually add custom feed entries, which persist across updates and are merged with fetched RSS items.
+
+---
+
+## 🧪 Example Output
+
+```
+┌─────────┬──────────────────────────────┬──────────────────────────────┐
+│ (index) │            title             │             link             │
+├─────────┼──────────────────────────────┼──────────────────────────────┤
+│    0    │  Easy Homemade Pizza Dough   │  https://example.com/pizza   │
+│    1    │  Healthy Breakfast Ideas     │  https://example.com/food    │
+└─────────┴──────────────────────────────┴──────────────────────────────┘
+Updated: Mon, 20 Jan 2026 14:30:00 GMT
+```
+
+---
+
+## 📦 Dependencies
+
+```json
+"dependencies": {
+  "prompt-sync": "^4.2.0",
+  "rss-parser": "^3.13.0"
+}
+```
+
+---
+
+## 👤 Author
+
+**Luiggy Alves**
+
+---
+
+## 📄 License
+
+This project is licensed under the **ISC License**.
+
+---
+
+## 🔮 Future Improvements
+
+* Error handling for invalid RSS feeds
+* Pagination or result limiting
+* Support for multiple keywords
+* Persistent storage for custom items
+* Configurable refresh interval
+
+---
+
+Feel free to fork, improve, and contribute 🚀
