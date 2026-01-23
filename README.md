@@ -38,7 +38,7 @@ The application updates automatically at a fixed interval and also allows the us
 
 ```bash
 git clone https://github.com/your-username/food_feed_rss_app.git
-cd food_feed_rss_app
+cd food-feed-rss-app
 ```
 
 2. Install dependencies:
