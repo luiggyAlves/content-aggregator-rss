@@ -37,7 +37,7 @@ The application updates automatically at a fixed interval and also allows the us
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/food_feed_rss_app.git
+git clone https://github.com/luiggyAlves/content-aggregator-rss
 cd food-feed-rss-app
 ```
 
