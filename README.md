@@ -38,7 +38,6 @@ The application updates automatically at a fixed interval and also allows the us
 
 ```bash
 git clone https://github.com/luiggyAlves/content-aggregator-rss
-cd food-feed-rss-app
 ```
 
 2. Install dependencies:
