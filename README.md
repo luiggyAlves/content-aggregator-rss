@@ -34,10 +34,11 @@ The application updates automatically at a fixed interval and also allows the us
 
 ## 🚀 How to use
 
-1. Clone the repository:
+1. Clone the repository and acess the folder:
 
 ```bash
 git clone https://github.com/luiggyAlves/content-aggregator-rss
+cd content-aggregator-rss
 ```
 
 2. Install dependencies:
