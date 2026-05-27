@@ -5,6 +5,8 @@ A command-line interface that aggregates food-related content by retrieving reci
 ---
 
 
+```mermaid
+
 flowchart TD
     subgraph CLI["🖥️ CLI — rag_parsons/cli.py (Typer)"]
         C1[build-kb]
@@ -48,6 +50,7 @@ flowchart TD
     C3 -.->|lista tópicos e linguagens| OUT
 
 
+```
 
 ## 📌 Overview
 
