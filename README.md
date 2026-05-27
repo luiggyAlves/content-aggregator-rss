@@ -13,30 +13,34 @@ A command-line interface that aggregates food-related content by retrieving reci
   'primaryTextColor': '#000000',
   'lineColor': '#000000',
   'background': '#ffffff',
-  'nodeBorder': '#000000',
-  'clusterBkg': '#ffffff',
+  'clusterBkg': '#f5f5f5',
   'clusterBorder': '#000000',
   'edgeLabelBackground': '#ffffff',
-  'secondaryColor': '#ffffff',
-  'tertiaryColor': '#ffffff',
   'fontFamily': 'Arial'
 }}}%%
-flowchart LR
-    A([Professor]) --> B[Seleciona\nTópico e Linguagem]
+flowchart TB
 
-    PDFs[PDFs Indígenas] --> INGEST[Ingestão e\nChunking]
-    INGEST --> KB[(Base de\nConhecimento\nChromeDB)]
+    subgraph FASE1["Indexação (offline)"]
+        direction LR
+        PDF["PDFs Indígenas"] --> ING["Ingestão e\nChunking"] --> KB[("ChromaDB")]
+    end
 
-    B --> RET[Recuperação\nde 5 Trechos\nAleatórios]
-    KB --> RET
+    subgraph FASE2["Geração do Exercício (online)"]
+        direction LR
+        PROF(["Professor"]) --> SEL["Tópico e\nLinguagem"] --> RET["Recuperação\nRAG"] --> PROMPT["Construção\ndo Prompt"] --> API["Claude API\nsonnet-4-6"]
+    end
 
-    RET --> PROMPT[Construção\ndo Prompt RAG]
-    PROMPT --> API[Claude API\nsonnet-4-6]
-    API --> V1{JSON\nválido?}
-    V1 -->|Não| ERR[Erro]
-    V1 -->|Sim| V2{Schema\nPydantic\nválido?}
-    V2 -->|Não| ERR
-    V2 -->|Sim| OUT([Problema\nde Parsons])
+    subgraph FASE3["Validação da Saída"]
+        direction LR
+        V1{"JSON\nválido?"} -->|Sim| V2{"Schema\nPydantic?"}
+        V1 -->|Não| ERR(["Erro"])
+        V2 -->|Não| ERR
+        V2 -->|Sim| OUT(["Problema\nde Parsons"])
+    end
+
+    KB -->|"trechos aleatórios"| RET
+    API --> V1
+
 
 
 
