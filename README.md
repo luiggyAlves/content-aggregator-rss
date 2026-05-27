@@ -7,41 +7,37 @@ A command-line interface that aggregates food-related content by retrieving reci
 
 ```mermaid
 
+%%{init: {'theme': 'base', 'themeVariables': {
+  'primaryColor': '#ffffff',
+  'primaryBorderColor': '#000000',
+  'primaryTextColor': '#000000',
+  'lineColor': '#000000',
+  'background': '#ffffff',
+  'nodeBorder': '#000000',
+  'clusterBkg': '#ffffff',
+  'clusterBorder': '#000000',
+  'edgeLabelBackground': '#ffffff',
+  'secondaryColor': '#ffffff',
+  'tertiaryColor': '#ffffff',
+  'fontFamily': 'Arial'
+}}}%%
 flowchart LR
-    PROF([Professor])
+    A([Professor]) --> B[Seleciona\nTópico e Linguagem]
 
-    PROF -->|Tópico + Linguagem| CLI
-    PROF -->|PDFs Indígenas| CLI
+    PDFs[PDFs Indígenas] --> INGEST[Ingestão e\nChunking]
+    INGEST --> KB[(Base de\nConhecimento\nChromeDB)]
 
-    CLI{Comando\nCLI}
+    B --> RET[Recuperação\nde 5 Trechos\nAleatórios]
+    KB --> RET
 
-    CLI -->|build-kb| INGEST
-    CLI -->|generate| RET
+    RET --> PROMPT[Construção\ndo Prompt RAG]
+    PROMPT --> API[Claude API\nsonnet-4-6]
+    API --> V1{JSON\nválido?}
+    V1 -->|Não| ERR[Erro]
+    V1 -->|Sim| V2{Schema\nPydantic\nválido?}
+    V2 -->|Não| ERR
+    V2 -->|Sim| OUT([Problema\nde Parsons])
 
-    subgraph KB["Base de Conhecimento"]
-        INGEST[Ingestão\n& Chunking\ndos PDFs]
-        EMBED[Geração de\nEmbeddings]
-        CHROMA[(ChromaDB)]
-        INGEST --> EMBED --> CHROMA
-    end
-
-    subgraph GEN["Geração do Exercício"]
-        RET[Recuperação\n5 trechos\naleatórios]
-        PROMPT[Construção\ndo Prompt\nRAG]
-        CLAUDE["Claude API\n(sonnet-4-6)"]
-        VJSON{JSON\nválido?}
-        VSCHEMA{Schema\nPydantic\nválido?}
-        RET --> PROMPT --> CLAUDE --> VJSON
-        VJSON -->|Sim| VSCHEMA
-    end
-
-    CHROMA -->|trechos| RET
-
-    VJSON -->|Não| ERR[Erro]
-    VSCHEMA -->|Não| ERR
-    VSCHEMA -->|Sim| OUT
-
-    OUT["Problema de Parsons\n(JSON)\nenunciado · blocos\nordem · casos de teste"]
 
 
 
