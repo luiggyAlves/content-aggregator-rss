@@ -4,6 +4,51 @@ A command-line interface that aggregates food-related content by retrieving reci
 
 ---
 
+
+flowchart TD
+    subgraph CLI["🖥️ CLI — rag_parsons/cli.py (Typer)"]
+        C1[build-kb]
+        C2[generate]
+        C3[topics / languages / info]
+    end
+
+    subgraph KB["📚 Base de Conhecimento"]
+        direction TB
+        PDF["PDFs\n(Livros/*)"]
+        ING["ingestion.py\ningest_all()"]
+        CHK["chunk_text()\n500 palavras, overlap 50"]
+        VS["vectorstore.py\nVectorStore"]
+        CDB[("ChromaDB\nchroma_db/")]
+        EMB["sentence-transformers\nparaphrase-multilingual-MiniLM-L12-v2"]
+
+        PDF --> ING --> CHK --> VS
+        VS -->|upsert + embed| EMB
+        EMB --> CDB
+    end
+
+    subgraph GEN["⚙️ Geração de Exercícios"]
+        direction TB
+        RET["retriever.py\nRetriever.random_sample(n=5)"]
+        PROMPT["generator.py\nParsonsGenerator._build_prompt()"]
+        API["Anthropic API\nclaude-sonnet-4-6\n16k tokens / 60s"]
+        VAL["ParsonsProblem\n(Pydantic v2 — models/parsons.py)"]
+    end
+
+    subgraph OUT["📄 Saída"]
+        JSON["JSON\ncultural_context\nenunciado\nblocks + distractors\ncorrect_order\ntest_cases\nsolution_explanation"]
+    end
+
+    C1 --> ING
+    C2 --> RET
+    CDB -->|random passages| RET
+    RET --> PROMPT
+    PROMPT --> API
+    API -->|raw JSON| VAL
+    VAL --> JSON
+    C3 -.->|lista tópicos e linguagens| OUT
+
+
+
 ## 📌 Overview
 
 This project is a Node.js command-line application that continuously fetches data from multiple food-related RSS feeds, filters the content according to a keyword provided by the user, and displays the aggregated results in a dynamic table.
