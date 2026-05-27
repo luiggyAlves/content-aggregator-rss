@@ -7,47 +7,42 @@ A command-line interface that aggregates food-related content by retrieving reci
 
 ```mermaid
 
-flowchart TD
-    subgraph CLI["🖥️ CLI — rag_parsons/cli.py (Typer)"]
-        C1[build-kb]
-        C2[generate]
-        C3[topics / languages / info]
+flowchart LR
+    PROF([Professor])
+
+    PROF -->|Tópico + Linguagem| CLI
+    PROF -->|PDFs Indígenas| CLI
+
+    CLI{Comando\nCLI}
+
+    CLI -->|build-kb| INGEST
+    CLI -->|generate| RET
+
+    subgraph KB["Base de Conhecimento"]
+        INGEST[Ingestão\n& Chunking\ndos PDFs]
+        EMBED[Geração de\nEmbeddings]
+        CHROMA[(ChromaDB)]
+        INGEST --> EMBED --> CHROMA
     end
 
-    subgraph KB["📚 Base de Conhecimento"]
-        direction TB
-        PDF["PDFs\n(Livros/*)"]
-        ING["ingestion.py\ningest_all()"]
-        CHK["chunk_text()\n500 palavras, overlap 50"]
-        VS["vectorstore.py\nVectorStore"]
-        CDB[("ChromaDB\nchroma_db/")]
-        EMB["sentence-transformers\nparaphrase-multilingual-MiniLM-L12-v2"]
-
-        PDF --> ING --> CHK --> VS
-        VS -->|upsert + embed| EMB
-        EMB --> CDB
+    subgraph GEN["Geração do Exercício"]
+        RET[Recuperação\n5 trechos\naleatórios]
+        PROMPT[Construção\ndo Prompt\nRAG]
+        CLAUDE["Claude API\n(sonnet-4-6)"]
+        VJSON{JSON\nválido?}
+        VSCHEMA{Schema\nPydantic\nválido?}
+        RET --> PROMPT --> CLAUDE --> VJSON
+        VJSON -->|Sim| VSCHEMA
     end
 
-    subgraph GEN["⚙️ Geração de Exercícios"]
-        direction TB
-        RET["retriever.py\nRetriever.random_sample(n=5)"]
-        PROMPT["generator.py\nParsonsGenerator._build_prompt()"]
-        API["Anthropic API\nclaude-sonnet-4-6\n16k tokens / 60s"]
-        VAL["ParsonsProblem\n(Pydantic v2 — models/parsons.py)"]
-    end
+    CHROMA -->|trechos| RET
 
-    subgraph OUT["📄 Saída"]
-        JSON["JSON\ncultural_context\nenunciado\nblocks + distractors\ncorrect_order\ntest_cases\nsolution_explanation"]
-    end
+    VJSON -->|Não| ERR[Erro]
+    VSCHEMA -->|Não| ERR
+    VSCHEMA -->|Sim| OUT
 
-    C1 --> ING
-    C2 --> RET
-    CDB -->|random passages| RET
-    RET --> PROMPT
-    PROMPT --> API
-    API -->|raw JSON| VAL
-    VAL --> JSON
-    C3 -.->|lista tópicos e linguagens| OUT
+    OUT["Problema de Parsons\n(JSON)\nenunciado · blocos\nordem · casos de teste"]
+
 
 
 ```
